@@ -1,0 +1,11 @@
+{
+	# debug
+	http_port 8080
+	auto_https disable_redirects
+}
+
+:8080 {
+	file_server
+	root * /home/usr/wp
+	php_fastcgi unix//run/php-fpm.socket
+}

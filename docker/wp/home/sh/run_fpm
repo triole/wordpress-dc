@@ -1,0 +1,8 @@
+#!/bin/bash
+
+bin="$(find /usr/sbin -regex ".*php-fpm.*" | tail -n 1)"
+
+${bin} \
+  -c "/home/usr/conf/php.ini" \
+  -y "/home/usr/conf/php-fpm/php-fpm.conf" \
+  -O --nodaemonize

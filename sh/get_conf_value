@@ -1,0 +1,14 @@
+#!/bin/bash
+scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+basedir=$(echo "${scriptdir}" | grep -Po ".*(?=\/)")
+conf="${basedir}/conf.toml"
+
+key="${1}"
+def="${2}"
+
+val="$(stoml "${conf}" "${key}")"
+if [[ -n "${val}" ]]; then
+  echo "${val}"
+else
+  echo "${def}"
+fi

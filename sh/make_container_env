@@ -1,0 +1,8 @@
+#!/bin/bash
+scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+basedir=$(echo "${scriptdir}" | grep -Po ".*(?=\/)")
+conf="${basedir}/conf.toml"
+
+env_file="${basedir}/docker/.env"
+
+cat "${conf}" | sed "s| ||g" | sed -e 's/\(.*\?=\)/\U\1/' >"${env_file}"

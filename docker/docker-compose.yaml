@@ -1,0 +1,44 @@
+---
+services:
+  wordpress:
+    container_name: ${PROJECT_PREFIX}-wp
+    depends_on:
+      - database
+    build:
+      context: wp
+      args:
+        UID: ${UID}
+        GID: ${GID}
+        TIMEZONE: ${TIMEZONE}
+    env_file:
+      - .env
+    ports:
+      - ${EXPOSED_PORT}:8080
+    restart: always
+    volumes:
+      - wp:/home/usr/vol
+  database:
+    container_name: ${PROJECT_PREFIX}-db
+    build:
+      context: db
+      args:
+        UID: ${UID}
+        GID: ${GID}
+        TIMEZONE: ${TIMEZONE}
+    env_file:
+      - .env
+    restart: always
+    volumes:
+      - db:/tmp
+
+volumes:
+  db:
+    driver_opts:
+      type: none
+      device: ${PROJECT_FOLDER}/vol/db
+      o: bind
+  wp:
+    driver_opts:
+      type: none
+      device: ${PROJECT_FOLDER}/vol/wp
+      o: bind

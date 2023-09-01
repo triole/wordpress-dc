@@ -1,0 +1,68 @@
+---
+version: '3'
+
+env:
+  CURDIR:
+    sh: pwd
+  PROJECT_FOLDER:
+    sh: pwd
+  UID:
+    sh: id -u
+  GID:
+    sh: id -g
+  TIMEZONE:
+    sh: cat /etc/timezone
+  EXPOSED_PORT:
+    sh: sh/get_conf_value exposed_port 8080
+  PROJECT_PREFIX:
+    sh: sh/get_conf_value project_prefix $(pwd | grep -Po "[^/]+$")
+
+tasks:
+  default:
+    desc: default corresponds to build and run
+    cmds:
+      - task: prep
+      - task: build
+      - task: run
+
+  prep:
+    desc: push source to docker folder
+    cmds:
+      - cmd: sh/make_container_env
+
+  build:
+    desc: just build the containers, do not run them
+    dir: docker
+    cmds:
+      - cmd: docker-compose build
+
+  rebuild:
+    desc: stop and remove running docker, run new one
+    cmds:
+      - task: rm
+      - task: default
+
+  run:
+    desc: set the environment variables and run the containers
+    dir: docker
+    cmds:
+      - cmd: docker-compose up -d
+
+  rm:
+    desc: remove the containers
+    dir: docker
+    cmds:
+      - cmd: docker-compose down --rmi all --remove-orphans
+
+  ls:
+    desc: list images and containers belonging to this setup
+    dir: docker
+    cmds:
+      - cmd: docker-compose images
+      - cmd: docker-compose ps
+
+  log:
+    desc: tail logs
+    dir: docker
+    cmds:
+      - cmd: docker-compose logs -f

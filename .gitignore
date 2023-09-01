@@ -1,1 +1,5 @@
-vol
+installers/
+vol/
+
+.env
+/conf.toml

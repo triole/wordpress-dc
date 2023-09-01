@@ -1,0 +1,50 @@
+#!/bin/bash
+
+installers_folder="${HOME}/installers"
+
+dl() {
+  url="${1}"
+  target_file="${2}"
+  target_folder="$(echo "${1}" | grep -Po ".*(?=\/)")"
+  mkdir -p "${target_folder}" && {
+    echo "download ${url} -> ${target_file}"
+    curl -so "${target_file}" "${url}"
+  }
+}
+
+detect() {
+  if [[ -d "${installers_folder}" ]]; then
+    find "${1}" -type f | grep "${2}" | sort | tail -n 1
+  fi
+}
+
+extract_wp() {
+  mkdir -p "${WORDPRESS_FOLDER}" &&
+    tar xzf "${1}" -C "${WORDPRESS_FOLDER}" --strip-components=1
+}
+
+install() {
+  installer="$(detect "${installers_folder}" "${1}")"
+  ext="$(
+    echo "${2}" | grep -Eo "[^/]+$" | grep -Eo "\.[a-z]+" | tr -d " \t\n\r"
+  )"
+  if [[ -z "${installer}" ]]; then
+    echo "${1} installer not found, start to download"
+    dl "${2}" "/tmp/${1}_latest${ext}"
+    installer="$(detect "/tmp" "${1}")"
+  fi
+
+  if [[ "${ext}" =~ gz$ ]]; then
+    echo "extract ${installer} -> ${WORDPRESS_FOLDER}"
+    extract_wp "${installer}"
+  else
+    echo "copy ${installer} -> ${WORDPRESS_FOLDER}"
+    cp -f "${installer}" "${WORDPRESS_FOLDER}/"
+  fi
+}
+
+# main
+install wordpress https://wordpress.org/latest.tar.gz
+
+install wp-cli \
+  https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
