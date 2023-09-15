@@ -1,0 +1,26 @@
+#!/bin/bash
+
+tempfile="/tmp/sql.tmp"
+
+sql_file="${1}"
+if [[ -z "${sql_file}" ]]; then
+  echo -e "\nplease pass arg defining sql file or use 'p' to enter sql db prompt"
+  echo -e "usage: update_site_url update_site_url"
+  exit
+fi
+
+export OLD_SITE_URL=$(
+  mysql -h ${MYSQL_HOST} -u root -p${MYSQL_ROOT_PASSWORD} -c ${MYSQL_NAME} \
+    -e "select option_value from wp_options where option_name='siteurl'" |
+    tail -n 1
+)
+
+if [[ "${sql_file}" == "p" ]]; then
+  mysql -h ${MYSQL_HOST} -u root -p${MYSQL_ROOT_PASSWORD} \
+    -c "${MYSQL_NAME}"
+else
+  cat "${sql_file}" | envsubst >"${tempfile}"
+  cat "${tempfile}"
+  mysql -h ${MYSQL_HOST} -u root -p${MYSQL_ROOT_PASSWORD} -c ${MYSQL_NAME} \
+    <"${tempfile}"
+fi

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+mapfile -t files < <(
+  find "${HOME}/vol/custom" -type f | sort
+)
+
+for fil in "${files[@]}"; do
+  shortname="$(echo "${fil}" | grep -Po "[^/]+$")"
+  target="${WORDPRESS_FOLDER}/${shortname}"
+  if [[ -f "${target}" ]]; then
+    rm "${target}"
+  fi
+  ln -s "${fil}" "${target}"
+done

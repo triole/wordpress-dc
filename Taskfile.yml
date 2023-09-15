@@ -29,6 +29,7 @@ tasks:
     desc: push source to docker folder
     cmds:
       - cmd: sh/make_container_env
+      - task: mec
 
   build:
     desc: just build the containers, do not run them
@@ -66,3 +67,9 @@ tasks:
     dir: docker
     cmds:
       - cmd: docker-compose logs -f
+
+  mec:
+    desc: make example conf
+    cmds:
+      - cmd: cat conf.toml | sed -E "s|\"[0-9a-zA-Z]{32,}\"|\"<A
+          SECRET>\"|g" > {{.CURDIR}}/examples/conf.toml

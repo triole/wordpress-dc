@@ -1,0 +1,23 @@
+#!/bin/bash
+
+import_dump() {
+  echo "import database: ${1}"
+  eval mysql -h ${MYSQL_HOST} -u root \
+    -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_NAME}" <"${1}"
+}
+
+mapfile -t arr < <(
+  find "${HOME}/sql" -regex ".*\/init_.*\.sql" | sort
+)
+
+for fil in "${arr[@]}"; do
+  sql "${fil}" || {
+    echo "an error occured"
+    exit 1
+  }
+done
+
+dump="$(find "${HOME}/vol/dumps" -regex ".*\.sql$" | sort | tail -n 1)"
+import_dump "${dump}"
+
+sql "${HOME}/sql/update_site_url.sql"

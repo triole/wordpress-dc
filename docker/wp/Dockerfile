@@ -19,6 +19,7 @@ RUN apk add --no-cache \
   git \
   grep \
   micro \
+  mysql-client \
   php \
   php-fpm \
   php-mysqli
@@ -49,6 +50,7 @@ RUN ${HOME}/sh/install_from_github.sh \
   "triole/supervisord" "_linux_x86_64.tar.gz" "${HOME}/bin"
 
 RUN install_wordpress
+RUN cp -f "${HOME}/conf/wp-config.php" "${HOME}/wp/wp-config.php"
 
 HEALTHCHECK --interval=3s --timeout=5s --retries=3 \
 CMD pgrep php-fpm
