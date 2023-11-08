@@ -16,18 +16,19 @@ This is what a config looks like.
 debug = true
 
 project_prefix = "wpd"
-exposed_port = 80
+exposed_port = 8989
 
-wp_home = "http://localhost"
-wp_siteurl = "http://localhost"
+wp_home = "http://localhost:8989"
+wp_siteurl = "http://localhost:8989"
 server_https = "off"
-server_http_host = "localhost"
+server_http_host = "localhost:8989"
 server_name = "localhost"
 
 mysql_host = "wpd-db"
 mysql_name = "akfd"
 mysql_user = "akfd"
 mysql_password = "<A SECRET>"
+
 mysql_root_password = "<A SECRET>"
 
 auth_key = "<A SECRET>"
