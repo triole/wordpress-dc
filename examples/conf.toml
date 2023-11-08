@@ -13,6 +13,7 @@ mysql_host = "wpd-db"
 mysql_name = "akfd"
 mysql_user = "akfd"
 mysql_password = "<A SECRET>"
+
 mysql_root_password = "<A SECRET>"
 
 auth_key = "<A SECRET>"
