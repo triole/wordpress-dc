@@ -3,6 +3,10 @@
 tempfile="/tmp/sql.tmp"
 
 sql_file="${1}"
+if [[ ! -f "${sql_file}" ]]; then
+  sql_file="$(find "${HOME}/sql" | grep "${sql_file}" | sort | head -n 1)"
+fi
+
 if [[ -z "${sql_file}" ]]; then
   echo -e "\nplease pass arg defining sql file or use 'p' to enter sql db prompt"
   echo -e "usage: update_site_url update_site_url"
@@ -21,6 +25,10 @@ if [[ "${sql_file}" == "p" ]]; then
 else
   cat "${sql_file}" | envsubst >"${tempfile}"
   cat "${tempfile}"
-  mysql -h ${MYSQL_HOST} -u root -p${MYSQL_ROOT_PASSWORD} -c ${MYSQL_NAME} \
+  db_name_arg="-c ${MYSQL_NAME}"
+  if [[ "${sql_file}" =~ .*\/init_create_db\.sql$ ]]; then
+    db_name_arg=""
+  fi
+  mysql -h ${MYSQL_HOST} -u root -p${MYSQL_ROOT_PASSWORD} ${db_name_arg} \
     <"${tempfile}"
 fi
