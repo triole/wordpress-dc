@@ -1,5 +1,14 @@
 #!/bin/bash
 
+header() {
+  echo -e "\n\033[0;33m${@}\033[0m"
+}
+
+rsql() {
+  header "${1}"
+  sql "${1}"
+}
+
 import_dump() {
   echo "import database: ${1}"
   eval mysql -h ${MYSQL_HOST} -u root \
@@ -18,6 +27,10 @@ for fil in "${arr[@]}"; do
 done
 
 dump="$(find "${HOME}/vol/dumps" -regex ".*\.sql$" | sort | tail -n 1)"
+
+header "import dump ${dump}"
 import_dump "${dump}"
 
-sql "${HOME}/sql/update_site_url.sql"
+rsql update_site_url
+rsql enable_legacy_auth
+rsql display_user_info
