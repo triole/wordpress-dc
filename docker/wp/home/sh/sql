@@ -4,7 +4,7 @@ tempfile="/tmp/sql.tmp"
 
 sql_file="${1}"
 if [[ ! -f "${sql_file}" ]]; then
-  sql_file="$(find "${HOME}/sql" | grep "${sql_file}" | sort | head -n 1)"
+  sql_file="$(find "${HOME}/sql" -type f | grep "${sql_file}" | sort | head -n 1)"
 fi
 
 if [[ -z "${sql_file}" ]]; then
@@ -13,22 +13,15 @@ if [[ -z "${sql_file}" ]]; then
   exit
 fi
 
-export OLD_SITE_URL=$(
-  mysql -h ${MYSQL_HOST} -u root -p${MYSQL_ROOT_PASSWORD} -c ${MYSQL_NAME} \
-    -e "select option_value from wp_options where option_name='siteurl'" |
-    tail -n 1
-)
+cat "${sql_file}" | envsubst >"${tempfile}"
 
-if [[ "${sql_file}" == "p" ]]; then
-  mysql -h ${MYSQL_HOST} -u root -p${MYSQL_ROOT_PASSWORD} \
-    -c "${MYSQL_NAME}"
-else
-  cat "${sql_file}" | envsubst >"${tempfile}"
-  cat "${tempfile}"
-  db_name_arg="-c ${MYSQL_NAME}"
-  if [[ "${sql_file}" =~ .*\/init_create_db\.sql$ ]]; then
-    db_name_arg=""
-  fi
-  mysql -h ${MYSQL_HOST} -u root -p${MYSQL_ROOT_PASSWORD} ${db_name_arg} \
-    <"${tempfile}"
+db_name_arg="-c ${MYSQL_NAME}"
+if [[ "${sql_file}" =~ .*\/create_db\.sql$ ]]; then
+  db_name_arg=""
 fi
+
+wait_for_db_up
+
+mysql -h ${MYSQL_HOST} \
+  -u root -p${MYSQL_ROOT_PASSWORD} ${db_name_arg} \
+  <"${tempfile}"
