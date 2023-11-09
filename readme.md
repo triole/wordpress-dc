@@ -5,7 +5,7 @@
 - [Folder structure](#folder-structure)
   - [Database dumps](#database-dumps)
   - [Wp-content](#wp-content)
-- [How to init First run](#how-to-init-first-run)
+- [How to init on first run](#how-to-init-on-first-run)
 - [Configuration](#configuration)
 
 <!-- /toc -->
@@ -24,7 +24,7 @@ Database dumps should be put under `vol/wp/dumps`. The `import_latest_db_dump` s
 
 The `wp-content` folder should go into `vol/wp/wp-content`. If this folder exists the `symlink_wp-content` script will symlink it into the correct locations inside the container.
 
-# How to init First run
+# How to init on first run
 
 On first run the database and wp-content will be empty. If you want to import existing data please make sure the file locations mentioned above are correct. If they are run...
 
