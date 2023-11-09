@@ -1,1 +1,0 @@
-ALTER USER ${MYSQL_USER} IDENTIFIED WITH caching_sha2_password;
