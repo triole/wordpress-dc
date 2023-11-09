@@ -1,0 +1,17 @@
+#!/bin/bash
+scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${scriptdir}/_lib.sh"
+
+import_dump() {
+  eval mysql -h ${MYSQL_HOST} -u root \
+    -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_NAME}" <"${1}"
+}
+
+mapfile -t dump < <(
+  find "${HOME}/vol/dumps" -type f -regex ".*\.sql$" | sort | tail -n 1
+)
+
+rcmd import_dump "${dump}"
+rsql update_site_url
+rsql enable_legacy_auth
+rsql display_user_info

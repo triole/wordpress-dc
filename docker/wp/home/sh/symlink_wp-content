@@ -1,0 +1,14 @@
+#!/bin/bash
+scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${scriptdir}/_lib.sh"
+
+home_wpc="${HOME}/wp/wp-content"
+vol_wpc="${HOME}/vol/wp-content"
+
+if [[ -d "${vol_wpc}" && ! -L "${home_wpc}" && -d "${home_wpc}" ]]; then
+  rcmd rm -rf "${home_wpc}"
+fi
+
+if [[ ! -f "${home_wpc}" && ! -d "${home_wpc}" && ! -L "${home_wpc}" ]]; then
+  rcmd ln -s "${vol_wpc}" "${home_wpc}"
+fi

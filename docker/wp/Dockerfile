@@ -19,7 +19,7 @@ RUN apk add --no-cache \
   git \
   grep \
   micro \
-  mysql-client \
+  mariadb-client \
   php \
   php-fpm \
   php-mysqli

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if ping_db >/dev/null 2>&1; then
+  true
+else
+  echo "db ping failed, waiting for db to be up and running..."
+  sleep 1
+  wait_for_db_up
+fi
