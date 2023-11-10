@@ -1,21 +1,21 @@
 #!/bin/bash
+scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${scriptdir}/_lib.sh"
 
 installers_folder="${HOME}/installers"
-
-dl() {
-  url="${1}"
-  target_file="${2}"
-  target_folder="$(echo "${1}" | grep -Po ".*(?=\/)")"
-  mkdir -p "${target_folder}" && {
-    echo "download ${url} -> ${target_file}"
-    curl -so "${target_file}" "${url}"
-  }
-}
 
 detect() {
   if [[ -d "${installers_folder}" ]]; then
     find "${1}" -type f | grep "${2}" | sort | tail -n 1
   fi
+}
+
+dl() {
+  url="${1}"
+  target_file="${2}"
+  target_folder="$(echo "${2}" | grep -Po ".*(?=\/)")"
+  rcmd mkdir -p "${target_folder}" &&
+    rcmd curl -so "${target_file}" "${url}"
 }
 
 extract_wp() {
@@ -30,20 +30,21 @@ install() {
   )"
   if [[ -z "${installer}" ]]; then
     echo "${1} installer not found, start to download"
-    dl "${2}" "/tmp/${1}_latest${ext}"
+    rcmd dl "${2}" "/tmp/${1}_latest${ext}"
     installer="$(detect "/tmp" "${1}")"
   fi
-
-  if [[ "${ext}" =~ gz$ ]]; then
-    echo "extract ${installer} -> ${WORDPRESS_FOLDER}"
-    extract_wp "${installer}"
-  else
-    echo "copy ${installer} -> ${WORDPRESS_FOLDER}"
-    cp -f "${installer}" "${WORDPRESS_FOLDER}/"
+  if [[ -n "${installer}" ]]; then
+    if [[ "${ext}" =~ gz$ ]]; then
+      rcmd extract_wp "${installer}"
+    else
+      rcmd cp -f "${installer}" "${WORDPRESS_FOLDER}/"
+    fi
   fi
 }
 
 # main
+mkdir -p "${installers_folder}"
+
 install wordpress https://wordpress.org/latest.tar.gz
 
 install wp-cli \
