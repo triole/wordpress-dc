@@ -35,7 +35,7 @@ tasks:
     desc: just build the containers, do not run them
     dir: docker
     cmds:
-      - cmd: docker-compose build
+      - cmd: docker compose build
 
   rebuild:
     desc: stop and remove running docker, run new one
@@ -47,26 +47,26 @@ tasks:
     desc: set the environment variables and run the containers
     dir: docker
     cmds:
-      - cmd: docker-compose up -d
+      - cmd: docker compose up -d
 
   rm:
     desc: remove the containers
     dir: docker
     cmds:
-      - cmd: docker-compose down --rmi all --remove-orphans
+      - cmd: docker compose down --rmi all --remove-orphans
 
   ls:
     desc: list images and containers belonging to this setup
     dir: docker
     cmds:
-      - cmd: docker-compose images
-      - cmd: docker-compose ps
+      - cmd: docker compose images
+      - cmd: docker compose ps
 
   log:
     desc: tail logs
     dir: docker
     cmds:
-      - cmd: docker-compose logs -f
+      - cmd: docker compose logs -f
 
   mec:
     desc: make example conf
