@@ -18,7 +18,7 @@ The setup contains a bunch of helper scripts that rely on a certain folder struc
 
 ## Database dumps
 
-Database dumps should be put under `vol/wp/dumps`. The `import_db_dump` shell script looks into this folder and imports the latest of the sql files.
+Database dumps should be put under `vol/wp/dumps`. The `import_db_dump` shell script looks into this folder and displays a menu in which the dump to import can be selected.
 
 ## Wp-content
 
