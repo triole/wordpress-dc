@@ -40,8 +40,6 @@ jobs:
           PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/runner/.local/bin
         working-directory: wordpress-dc
         run: task prep
-      - name: aasdas
-        run: env | grep PATH
       - name: Build docker containers
         env:
           UID: 1000
