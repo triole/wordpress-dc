@@ -7,9 +7,10 @@ import_dump() {
     -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_NAME}" <"${1}"
 }
 
-mapfile -t dump < <(
-  find "${HOME}/vol/dumps" -type f -regex ".*\.sql$" | sort | tail -n 1
-)
+dump="$(
+  find "${HOME}/vol/dumps" -type f -regex ".*\.sql$" | sort |
+    fzf --header "Please select a dump to import"
+)"
 
 rcmd import_dump "${dump}"
 rsql update_site_url

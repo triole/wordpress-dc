@@ -16,6 +16,7 @@ RUN apk add --no-cache \
   bash \
   curl \
   envsubst \
+  fzf \
   git \
   grep \
   micro \

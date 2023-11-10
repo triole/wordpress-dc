@@ -4,6 +4,6 @@ source "${scriptdir}/_lib.sh"
 
 symlink_wp-content
 init_db
-import_latest_db_dump
+import_db_dump
 
 sql enable_legacy_auth
