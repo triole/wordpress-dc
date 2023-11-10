@@ -9,6 +9,10 @@ rsql() {
 
 rcmd() {
   cmd=${@}
-  echo -e "\033[0;93m${cmd}\033[0m"
+  echo -e "\033[0;93m[$(ts)] ${cmd}\033[0m"
   eval ${cmd}
+}
+
+ts() {
+  date "+%d-%b-%Y %H:%M:%S"
 }
