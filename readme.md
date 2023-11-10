@@ -1,5 +1,7 @@
 # Wordpress DC
 
+# Web Request Assert ![example workflow](https://github.com/triole/wordpress-dc/actions/workflows/build.yaml/badge.svg)
+
 <!-- toc -->
 
 - [Folder structure](#folder-structure)
