@@ -52,7 +52,7 @@ tasks:
     desc: remove the containers
     dir: docker
     cmds:
-      - cmd: docker compose down -p {{.PROJECT_PREFIX}} --rmi
+      - cmd: docker compose -p {{.PROJECT_PREFIX}} down --rmi
           all --remove-orphans
 
   ls:
