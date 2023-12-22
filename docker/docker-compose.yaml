@@ -27,8 +27,8 @@ services:
         TIMEZONE: ${TIMEZONE}
     env_file:
       - .env
-    ports:
-      - 3306:3306
+    # ports:
+    #   - 3306:3306
     restart: always
     volumes:
       - db:/usr/localhost
