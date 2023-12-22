@@ -29,7 +29,6 @@ tasks:
     desc: push source to docker folder
     cmds:
       - cmd: sh/make_container_env
-      - task: mec
 
   build:
     desc: just build the containers, do not run them
