@@ -11,7 +11,7 @@ env:
   GID:
     sh: id -g
   TIMEZONE:
-    sh: cat /etc/timezone
+    sh: timedatectl | grep -i "time zone:" | grep -Po "[a-zA-Z]+/[a-zA-Z]+"
   EXPOSED_PORT:
     sh: sh/get_conf_value exposed_port 8080
   PROJECT_PREFIX:
