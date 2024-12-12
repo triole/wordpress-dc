@@ -3,8 +3,9 @@
 <!-- toc -->
 
 - [Folder structure](#folder-structure)
-  - [Database dumps](#database-dumps)
-  - [Wp-content](#wp-content)
+- [Requirements](#requirements)
+- [Database dumps](#database-dumps)
+- [Wp-content](#wp-content)
 - [How to init on first run](#how-to-init-on-first-run)
 - [Configuration](#configuration)
 
@@ -12,9 +13,16 @@
 
 A strongly opinionated wordpress docker compose setup which stores its configuration values inside a `conf.toml`.
 
-# Folder structure
+## Folder structure
 
 The setup contains a bunch of helper scripts that rely on a certain folder structure. Especially if there is an already existing wordpress instance that should be migrated. Database dumps and the wp-content folder can be imported into this setup quite easily if the folder structure is right. Here are the locations...
+
+## Requirements
+
+Note that this setup requires a minimal set of third party tools. Unfortunately there are things that cannot be done easily on the command line without help. Here is a list:
+
+1. [task](https://github.com/go-task/task), make the `Taskfile.yml` usable
+2. [stoml](https://github.com/freshautomations/stoml), parse and process the `conf.toml`
 
 ## Database dumps
 
