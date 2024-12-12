@@ -16,6 +16,8 @@ RUN groupadd -g "${GID}" "${GNAME}" \
  && useradd -m -s /bin/bash -g "${GNAME}" -u "${UID}" "${USER}" \
  && chown -R "${USER}:${GID}" "${HOME}"
 
+COPY disable_cert_check.cnf /etc/mysql/conf.d/disable_cert_check.cnf
+
 RUN curl --output ${HOME}/.bashrc \
   https://raw.githubusercontent.com/triole/ghwfe/master/bashrc/default.sh
 

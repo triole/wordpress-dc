@@ -1,0 +1,4 @@
+[mysqld]
+
+[client-mariadb]
+disable-ssl-verify-server-cert

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-mariadb -h ${MYSQL_HOST} -u ${MYSQL_USER} \
+mariadb --ssl=false -h ${MYSQL_HOST} -u ${MYSQL_USER} \
   -p"${MYSQL_PASSWORD}" "${MYSQL_NAME}"
