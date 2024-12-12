@@ -3,7 +3,8 @@ services:
   wordpress:
     container_name: ${PROJECT_PREFIX}-wp
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     build:
       context: wp
       args:
