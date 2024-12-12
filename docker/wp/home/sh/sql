@@ -22,6 +22,6 @@ fi
 
 wait_for_db_up
 
-mysql -h ${MYSQL_HOST} \
+mariadb -h ${MYSQL_HOST} \
   -u root -p${MYSQL_ROOT_PASSWORD} ${db_name_arg} \
   <"${tempfile}"
