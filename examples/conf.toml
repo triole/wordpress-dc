@@ -9,11 +9,9 @@ server_https = "off"
 server_http_host = "localhost:8989"
 server_name = "localhost"
 
-mysql_host = "wpd-db"
 mysql_name = "akfd"
 mysql_user = "akfd"
 mysql_password = "<A SECRET>"
-
 mysql_root_password = "<A SECRET>"
 
 auth_key = "<A SECRET>"

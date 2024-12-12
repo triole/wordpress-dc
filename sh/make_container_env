@@ -4,5 +4,24 @@ basedir=$(echo "${scriptdir}" | grep -Po ".*(?=\/)")
 conf="${basedir}/conf.toml"
 
 env_file="${basedir}/docker/.env"
+if [[ -f "${env_file}" ]]; then
+  truncate -s 0 "${env_file}"
+fi
 
-cat "${conf}" | sed "s| ||g" | sed -e 's/\(.*\?=\)/\U\1/' >"${env_file}"
+ap() {
+  echo "${@}" >>"${env_file}"
+}
+
+mapfile -t arr < <(
+  cat "${conf}" | sed "s| ||g" | sed -e 's/\(.*\?=\)/\U\1/' | sort
+)
+
+for el in "${arr[@]}"; do
+  if [[ -n "${el}" ]]; then
+    export "${el}"
+    ap "${el}"
+  fi
+done
+
+pref="$(echo "${PROJECT_PREFIX}" | sed 's|"$||g')"
+ap "MYSQL_HOST=${pref}-db\""
