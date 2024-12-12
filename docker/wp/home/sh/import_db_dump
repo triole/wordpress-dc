@@ -3,7 +3,7 @@ scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${scriptdir}/_lib.sh"
 
 import_dump() {
-  eval mysql -h ${MYSQL_HOST} -u root \
+  mariadb --ssl=false -h ${MYSQL_HOST} -u root \
     -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_NAME}" <"${1}"
 }
 
