@@ -28,6 +28,7 @@ tasks:
   prep:
     desc: push source to docker folder
     cmds:
+      - cmd: mkdir -p vol/db
       - cmd: sh/make_container_env
 
   build:
