@@ -22,7 +22,7 @@ RUN curl --output ${HOME}/.bashrc \
 RUN mkdir -p /usr/localhost
 RUN chown ${UID}:${GID} /usr/localhost /var/lib/mysql
 
-HEALTHCHECK --interval=60s --timeout=5s --retries=3 \
+HEALTHCHECK --interval=5s --timeout=5s --retries=3 \
 CMD echo "SELECT 1" | mysql -h ${MYSQL_HOST} -u root -p${MYSQL_ROOT_PASSWORD} mysql
 
 USER ${USER}
