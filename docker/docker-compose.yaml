@@ -16,7 +16,7 @@ services:
       - ${EXPOSED_PORT}:8080
     restart: always
     volumes:
-      - wp:/home/usr/vol
+      - ${PROJECT_FOLDER}/vol/wp:/home/usr/vol
   database:
     container_name: ${PROJECT_PREFIX}-db
     build:
@@ -31,16 +31,4 @@ services:
     #   - 3306:3306
     restart: always
     volumes:
-      - db:/usr/localhost
-
-volumes:
-  db:
-    driver_opts:
-      type: none
-      device: ${PROJECT_FOLDER}/vol/db
-      o: bind
-  wp:
-    driver_opts:
-      type: none
-      device: ${PROJECT_FOLDER}/vol/wp
-      o: bind
+      - ${PROJECT_FOLDER}/vol/db:/usr/localhost
