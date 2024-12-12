@@ -12,7 +12,10 @@ dump="$(
     fzf --header "Please select a dump to import"
 )"
 
-rcmd import_dump "${dump}"
+rcmd import_dump "${dump}" || {
+  echo -e "\033[0;91m[error]\033[0m importing dump failed, aborting"
+  exit 1
+}
 rsql update_site_url
 rsql enable_legacy_auth
 rsql display_user_info
